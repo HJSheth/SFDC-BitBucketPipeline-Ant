@@ -1,0 +1,66 @@
+<aura:component controller="TestController" implements="force:lightningQuickActionWithoutHeader,lightning:actionOverride,force:hasRecordId,force:appHostable,forceCommunity:availableForAllPageTypes" access="global" >
+    <aura:attribute name="data" type="Object"/>
+    <aura:attribute name="columns" type="Object"/>
+    <aura:attribute name="selectedRowsCount" type="Integer" default="0"/>
+    <aura:attribute name="draftValues" type="List" default="[]"/>    
+    <aura:attribute name="selectedRowsId" type="List" default="[]"/>   
+    <aura:attribute name="selectedRecords" type="Apttus_Approval__Approval_Request__c[]" />
+    <aura:attribute name="sortedBy" type="String"/>   
+    <aura:attribute name="sortedDirection" type="String"/>  
+    <aura:attribute name="defaultSortDirection" type="String"/>
+    <aura:attribute name="Spinner" type="boolean" default="false"/>
+    <aura:attribute name="maxRowSelection" type="Integer" default="1"/>
+    <aura:attribute name="approvalComment" type="String"/>
+    <aura:attribute name="reportId" type="String"/>
+    <!--<aura:handler event="aura:waiting" action="{!c.showSpinner}"/>-->
+    <!--<aura:handler event="aura:doneWaiting" action="{!c.hideSpinner}"/>-->
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    
+    <lightning:card title="Approval Requests">
+        <aura:if isTrue="{!(empty(v.data))}">
+            <div class="slds-align_absolute-center" style="height:10rem">
+                <div class="slds-text-heading_medium">Currently there are no records waiting for your approval.</div>
+            </div>
+        </aura:if>
+        <aura:if isTrue="{!not(empty(v.data))}">
+            <lightning:layoutItem size="6" largeDeviceSize="6" smallDeviceSize="6" padding="around-x-small">
+                <lightning:input name="comment" value="{! v.approvalComment }" placeholder="type your comments for selected records..." label="Approver Comments" />
+            </lightning:layoutItem>
+            <br/>
+            <div class="slds-float_left">
+                <h1>Selected Rows: {! v.selectedRowsCount }</h1>
+            </div>
+            <div style="display: flex; justify-content: flex-end">
+                <div class="slds-align_absolute-center" style="color:#FF0000;font-weight:bold">
+                    <h3>"Multiple approvals at the same time are restricted."</h3>
+                </div>
+                <lightning:button class="slds-button slds-button_brand" label="Pending Proposals Report" variant="brand" onclick="{!c.navigateToReport}"/>
+                <lightning:button class="slds-button slds-button_brand" disabled="{! v.selectedRowsCount > 0 ? false : true}" label="Approve" variant="brand" onclick="{!c.handleApprove}"/>
+                <lightning:button class="slds-button slds-button_destructive" disabled="{! v.selectedRowsCount > 0 ? false : true}" label="Reject" variant="brand" onclick="{!c.handleReject}"/>
+            </div>
+            <aura:if isTrue="{! v.Spinner }">
+                <lightning:spinner alternativeText="Loading" />
+                <aura:set attribute="else">
+                    <lightning:datatable class="slds-table slds-max-medium-table_stacked-horizontal"
+                                 aura:id = "Datatable"
+                                 columns="{! v.columns }"
+                                 data="{! v.data }"
+                                 keyField="id"
+                                 selectedRows="{! v.selectedRowsId}" 
+                                 onrowselection="{! c.updateSelectedText }"
+                                 sortedBy="{! v.sortedBy }"
+                                 sortedDirection="{! v.sortedDirection }"
+                                 defaultSortDirection="{! v.defaultSortDirection }"
+                                 onsort="{! c.updateColumnSorting }"
+                                 onrowaction="{! c.handleRowAction }"
+                                 draftValues="{! v.draftValues }"
+                                 oncellchange="{! c.handleCellChange }"
+                                 maxRowSelection="{! v.maxRowSelection }"/>
+                </aura:set>
+            </aura:if>
+        </aura:if>
+    </lightning:card>
+</aura:component>
