@@ -1,0 +1,127 @@
+image:
+  name: mklinski/salesforce
+
+options:
+    max-time: 45
+
+pipelines:
+    custom:
+      00-test-to-SIT :
+        - step:
+            deployment: SIT
+            name: Test to SIT
+            script:
+                - echo "$SFDC_USERNAME $SFDC_PASS $SFDC_URL"
+                - ant -buildfile build/build.xml deployCheckOnly -Dsfdc.username=$SFDC_USERNAME -Dsfdc.password=$SFDC_PASS -Dsfdc.serverurl=$SFDC_URL
+      00-deploy-to-SIT :
+        - step:
+            deployment: SIT
+            name: Deploy to SIT
+            script:
+                - echo "$SFDC_USERNAME $SFDC_PASS $SFDC_URL"
+                - ant -buildfile build/build.xml deployCode -Dsfdc.username=$SFDC_USERNAME -Dsfdc.password=$SFDC_PASS -Dsfdc.serverurl=$SFDC_URL
+      00-runTest-to-SIT :
+        - step:
+            deployment: SIT
+            name: TestClassRun to SIT
+            script:
+                - echo "$SFDC_USERNAME $SFDC_PASS $SFDC_URL"
+                - ant -buildfile build/build.xml deployCheckOnlyRunTest -Dsfdc.username=$SFDC_USERNAME -Dsfdc.password=$SFDC_PASS -Dsfdc.serverurl=$SFDC_URL
+      01-test-to-Release1-QA :
+        - step:
+            deployment: Release1-QA
+            name: Test to Release1-QA
+            script:
+                - echo "$SFDC_USERNAME $SFDC_PASS $SFDC_URL"
+                - ant -buildfile build/build.xml deployCheckOnly -Dsfdc.username=$SFDC_USERNAME -Dsfdc.password=$SFDC_PASS -Dsfdc.serverurl=$SFDC_URL
+      01-deploy-to-Release1-QA :
+        - step:
+            deployment: Release1-QA
+            name: Deploy to Release1-QA
+            script:
+                - echo "$SFDC_USERNAME $SFDC_PASS $SFDC_URL"
+                - ant -buildfile build/build.xml deployCode -Dsfdc.username=$SFDC_USERNAME -Dsfdc.password=$SFDC_PASS -Dsfdc.serverurl=$SFDC_URL
+      02-test-to-Release2-QA :
+        - step:
+            deployment: Release2-QA
+            name: Test to Release2-QA
+            script:
+                - echo "$SFDC_USERNAME $SFDC_PASS $SFDC_URL"
+                - ant -buildfile build/build.xml deployCheckOnly -Dsfdc.username=$SFDC_USERNAME -Dsfdc.password=$SFDC_PASS -Dsfdc.serverurl=$SFDC_URL
+      02-deploy-to-Release2-QA :
+        - step:
+            deployment: Release2-QA
+            name: Deploy to Release2-QA
+            script:
+                - echo "$SFDC_USERNAME $SFDC_PASS $SFDC_URL"
+                - ant -buildfile build/build.xml deployCode -Dsfdc.username=$SFDC_USERNAME -Dsfdc.password=$SFDC_PASS -Dsfdc.serverurl=$SFDC_URL                
+      03-test-to-Release3-QA :
+        - step:
+            deployment: Release3-QA
+            name: Test to Release3-QA
+            script:
+                - echo "$SFDC_USERNAME $SFDC_PASS $SFDC_URL"
+                - ant -buildfile build/build.xml deployCheckOnly -Dsfdc.username=$SFDC_USERNAME -Dsfdc.password=$SFDC_PASS -Dsfdc.serverurl=$SFDC_URL
+      03-deploy-to-Release3-QA :
+        - step:
+            deployment: Release3-QA
+            name: Deploy to Release3-QA
+            script:
+                - echo "$SFDC_USERNAME $SFDC_PASS $SFDC_URL"
+                - ant -buildfile build/build.xml deployCode -Dsfdc.username=$SFDC_USERNAME -Dsfdc.password=$SFDC_PASS -Dsfdc.serverurl=$SFDC_URL
+      04-test-to-SVC-TENDER-QA :
+        - step:
+            deployment: SVC-TENDER-QA
+            name: Test to SVC-TENDER-QA
+            script:
+                - echo "$SFDC_USERNAME $SFDC_PASS $SFDC_URL"
+                - ant -buildfile build/build.xml deployCheckOnly -Dsfdc.username=$SFDC_USERNAME -Dsfdc.password=$SFDC_PASS -Dsfdc.serverurl=$SFDC_URL
+      04-deploy-to-SVC-TENDER-QA :
+        - step:
+            deployment: SVC-TENDER-QA
+            name: Deploy to SVC-TENDER-QA
+            script:
+                - echo "$SFDC_USERNAME $SFDC_PASS $SFDC_URL"
+                - ant -buildfile build/build.xml deployCode -Dsfdc.username=$SFDC_USERNAME -Dsfdc.password=$SFDC_PASS -Dsfdc.serverurl=$SFDC_URL
+      05-test-to-UAT :
+        - step:
+            deployment: UAT
+            name: Test to UAT
+            script:
+                - echo "$SFDC_USERNAME $SFDC_PASS $SFDC_URL"
+                - ant -buildfile build/build.xml deployCheckOnly -Dsfdc.username=$SFDC_USERNAME -Dsfdc.password=$SFDC_PASS -Dsfdc.serverurl=$SFDC_URL
+      05-deploy-to-UAT :
+        - step:
+            deployment: UAT
+            name: Deploy to UAT
+            script:
+                - echo "$SFDC_USERNAME $SFDC_PASS $SFDC_URL"
+                - ant -buildfile build/build.xml deployCode -Dsfdc.username=$SFDC_USERNAME -Dsfdc.password=$SFDC_PASS -Dsfdc.serverurl=$SFDC_URL
+      06-test-to-PRODREPLICA :
+        - step:
+            deployment: PRODREPLICA
+            name: Test to PRODREPLICA
+            script:
+                - echo "$SFDC_USERNAME $SFDC_PASS $SFDC_URL"
+                - ant -buildfile build/build.xml deployCheckOnly -Dsfdc.username=$SFDC_USERNAME -Dsfdc.password=$SFDC_PASS -Dsfdc.serverurl=$SFDC_URL
+      06-deploy-to-PRODREPLICA :
+        - step:
+            deployment: PRODREPLICA
+            name: Deploy to PRODREPLICA
+            script:
+                - echo "$SFDC_USERNAME $SFDC_PASS $SFDC_URL"
+                - ant -buildfile build/build.xml deployCode -Dsfdc.username=$SFDC_USERNAME -Dsfdc.password=$SFDC_PASS -Dsfdc.serverurl=$SFDC_URL    
+      07-test-to-IPRPRT :
+        - step:
+            deployment: IPRPRT
+            name: Test to IPRPRT
+            script:
+                - echo "$SFDC_USERNAME $SFDC_PASS $SFDC_URL"
+                - ant -buildfile build/build.xml deployCheckOnly -Dsfdc.username=$SFDC_USERNAME -Dsfdc.password=$SFDC_PASS -Dsfdc.serverurl=$SFDC_URL
+      07-deploy-to-IPRPRT :
+        - step:
+            deployment: IPRPRT
+            name: Deploy to IPRPRT
+            script:
+                - echo "$SFDC_USERNAME $SFDC_PASS $SFDC_URL"
+                - ant -buildfile build/build.xml deployCode -Dsfdc.username=$SFDC_USERNAME -Dsfdc.password=$SFDC_PASS -Dsfdc.serverurl=$SFDC_URL
